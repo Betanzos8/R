@@ -45,15 +45,13 @@ agregados$indice<-as.numeric(agregados$Fecha-agregados$Min)
 conteos<-agregados$Casos[agregados$Pais=="Italy"][20:47]
 tiempo<-1:length(conteos)
 
+#Generamos el modelo y lo revisamos
 exponential.model <- lm(log(conteos)~ log(tiempo+2) )
-rango_tiempo <- seq(1, min(max(tiempo),length(conteos)), 1)
-conteos_exponencial <- exp(predict(exponential.model,list(tiempo=rango_tiempo)))
+summary(exponential.model)
+
+#gráfica del modelo resultante
+conteos_exponencial <- exp(predict(exponential.model,list(tiempo)))
 plot(tiempo,conteos,pch=16)
 lines(rango_tiempo, conteos_exponencial,lwd=2, col = "red", xlab = "tiempo", ylab = "conteos")
-rsq <- function (x, y) cor(x, y) ^ 2
-rsq(conteos,conteos_exponencial)
-
-
-
 
 
