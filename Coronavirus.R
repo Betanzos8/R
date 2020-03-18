@@ -45,7 +45,8 @@ agregados$indice<-as.numeric(agregados$Fecha-agregados$Min)
 conteos<-agregados$Casos[agregados$Pais=="Italy"][20:47]
 tiempo<-1:length(conteos)
 
-#Generamos el modelo y lo revisamos
+#Revisión de linealidad del logaritmo y generación del model
+plot(log(conteos),log(tiempo+2),pch=20)
 exponential.model <- lm(log(conteos)~ log(tiempo+2) )
 summary(exponential.model)
 
