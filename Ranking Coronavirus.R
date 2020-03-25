@@ -88,12 +88,10 @@ hoy<-merge(hoy,casos,by="pais",all.x=T)
 hoy<-hoy[order(hoy$ordenadas,decreasing = T),]
 
 ggplot() +
-  geom_line(data = ordenadas[ordenadas$pais %in% c("Mexico","Colombia","Ecuador","Brazil","Argentina","Peru","Uruguay","Chile","Poland"),], aes(x = fecha, y = ordenadas, color = pais), size = 1)+
-  xlab("x axis") +
-  ylab("y axis")
+  geom_line(data = ordenadas[ordenadas$pais %in% c("Brazil","Ecuador","Chile","Argentina","Mexico","Colombia") & ordenadas$fecha>='2020-03-18',], aes(x = as.Date(fecha, "%Y-%m-%d"), y = ordenadas, color = pais), size = 1) +
+  xlab("Fecha") +
+  ylab("Ordenada")+
+  labs(title="Ranking histórico America Latina")+
+  theme(plot.title = element_text(color="red", size=14, face="bold.italic",hjust = 0.5))
 
-ggplot() +
-  geom_line(data = ordenadas[ordenadas$pais %in% c("Australia","Brazil","Belgium"),], aes(x = fecha, y = ordenadas, color = pais), size = 1)+
-  xlab("x axis") +
-  ylab("y axis")
 
