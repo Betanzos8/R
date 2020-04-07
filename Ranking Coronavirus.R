@@ -43,10 +43,14 @@ obt_ordenada<-function(x){
   conteos<-agregados$Casos[agregados$Pais==x&agregados$Casos>0]
   fechas<-agregados$Fecha[agregados$Pais==x&agregados$Casos>0]
   if (length(conteos)>=3){
-    inc<-(conteos[2:length(conteos)]-conteos[1:(length(conteos)-1)])>=8
+    inc<-(conteos[2:length(conteos)]-conteos[1:(length(conteos)-1)])>=5
     inc<-inc[1:(length(inc)-2)]+inc[2:(length(inc)-1)]+inc[3:length(inc)]
     if (max(inc,na.rm=T)==3& sum(min(conteos[2:length(conteos)]-conteos[1:(length(conteos)-1)])<0)<=1){
       conteos<-conteos[match(3,inc):length(conteos)]
+      if(conteos[length(conteos)]==conteos[length(conteos)-1]){
+        conteos[length(conteos)]<-floor(conteos[length(conteos)-1]*conteos[length(conteos)-1]/conteos[length(conteos)-2]*1.001)
+      }
+      
       fechas<-fechas[match(3,inc):length(fechas)]
       inc<-(conteos[2:length(conteos)]-conteos[1:(length(conteos)-1)])<=0
       for (i in length(inc):1){
@@ -54,15 +58,23 @@ obt_ordenada<-function(x){
           conteos[i+1]<-floor(conteos[i]*sqrt(conteos[i+2]/conteos[i]))
         }
       }
-      if (length(conteos)>=3){
+      for (j in 1:3){
+        for (i in (length(conteos)-2):1){
+          if (1){
+            conteos[i+1]<-floor(conteos[i]*sqrt(conteos[i+2]/conteos[i]))
+          }
+        }
+      }
+      tryCatch({if (length(conteos)>=3){
         ordenadas<-numeric()
         for (i in 2:(length(conteos)-2)){
-          ordenadas[i-1]<-as.numeric(lm(log(conteos[i:(i+2)]-conteos[i-1]+1)~ log(1:3))$coefficients[1])
+          ordenadas[i-1]<-log(conteos[i+2]-conteos[i+1])*as.numeric(lm(log(conteos[i:(i+2)]-conteos[i-1]+1)~ log(1:3))$coefficients[1])
+          #ordenadas[i-1]<-log(conteos[i]-conteos[i-1])
         }
         data.frame(ordenadas,fecha=fechas[4:length(fechas)],pais=rep(x,length(ordenadas)),stringsAsFactors = F)    
       }else{
         data.frame()
-      }
+      }}, error=function(e){data.frame()})
     }else{
       data.frame()
     }  
