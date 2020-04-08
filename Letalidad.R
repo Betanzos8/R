@@ -48,7 +48,7 @@ agregados$Letalidad<-agregados$Muertes/agregados$Salientes
 agregados$llave<-NULL
 
 ggplot() +
-  geom_line(data = agregados[agregados$Pais %in% c("Switzerland","Belgium","France","Italy","Spain","Germany") & agregados$Recuperados>=10,], aes(x = Fecha, y = Letalidad, color = Pais), size = 1) +
+  geom_line(data = agregados[agregados$Pais %in% c("Switzerland","Belgium","France","Italy","Spain","Germany") & agregados$Recuperados>=140,], aes(x = Fecha, y = Letalidad, color = Pais), size = 1) +
   xlab("Fecha") +
   ylab("Letalidad")+
   labs(title="Letalidad en Europa")+
