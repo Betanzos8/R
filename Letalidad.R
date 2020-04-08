@@ -48,9 +48,19 @@ agregados$Letalidad<-agregados$Muertes/agregados$Salientes
 agregados$llave<-NULL
 
 ggplot() +
-  geom_line(data = agregados[agregados$Pais %in% c("Switzerland","Belgium","France","Italy","Spain","Germany") & agregados$Recuperados>=140,], aes(x = Fecha, y = Letalidad, color = Pais), size = 1) +
+  geom_line(data = agregados[agregados$Pais %in% c("France","Italy","Spain","Germany") & agregados$Recuperados>=140,], aes(x = Fecha, y = Letalidad, color = Pais), size = 1) +
   xlab("Fecha") +
-  ylab("Letalidad")+
-  labs(title="Letalidad en Europa")+
+  ylab("Letalidad") +
+  scale_y_continuous(labels = scales::percent,limits = c(0,0.5)) +
+  labs(title="Letalidad en Europa") +
+  theme(plot.title = element_text(color="red", size=14, face="bold.italic",hjust = 0.5))
+
+
+ggplot() +
+  geom_line(data = agregados[agregados$Pais %in% c("Italy") & agregados$Recuperados>=10,], aes(x = Fecha, y = Letalidad, color = Pais), size = 1) +
+  xlab("Fecha") +
+  ylab("Letalidad") +
+  scale_y_continuous(labels = scales::percent,limits = c(0,0.5)) +
+  labs(title="Letalidad en Italia") +
   theme(plot.title = element_text(color="red", size=14, face="bold.italic",hjust = 0.5))
 
